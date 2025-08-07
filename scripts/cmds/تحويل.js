@@ -13,7 +13,7 @@ module.exports = {
     version: "1.6.9",
     author: "Nazrul",
     role: 0,
-    description: "{pn} - Enhance your photos with artful transformations!",
+    description: "{pn} - قم بتعزيز صورك باستخدام التحولات الفنية!",
     category: "art",
     countDown: 5,
     guide: { 
@@ -22,10 +22,10 @@ module.exports = {
   },
   onStart: async function ({ message, event, args, api }) {
     try {
-      const cp = ["bal","zombie","anime","ghost", "watercolor", "sketch", "abstract", "cartoon","monster"];
+      const cp = ["bal","زومبي","أنمي","شبح", "خلاصة","cartoon","monster"];
       const prompts = args[0] || cp[Math.floor(Math.random() * cp.length)];
 
-      const msg = await api.sendMessage("🎨 Processing your image, please wait...", event.threadID);
+      const msg = await api.sendMessage("🎨 جاري معالجة صورتك، يرجى الانتظار...", event.threadID);
 
       let photoUrl = "";
 
@@ -36,13 +36,13 @@ module.exports = {
       }
 
       if (!photoUrl) {
-        return api.sendMessage("🔰 Please reply to an image or provide a URL!", event.threadID, event.messageID);
+        return api.sendMessage("🔰 الرجاء الرد على الصورة أو تقديم عنوان URL!", event.threadID, event.messageID);
       }
 
       const response = await axios.get(`${await baseApiUrl()}/art2?url=${encodeURIComponent(photoUrl)}&prompt=${encodeURIComponent(prompts)}`);
 
       if (!response.data || !response.data.imageUrl) {
-        await api.sendMessage("⚠ Failed to return a valid image URL. Please try again.", event.threadID, event.messageID);
+        await api.sendMessage("⚠ فشل إدخال رابط صورة صحيح. يُرجى المحاولة مرة أخرى.", event.threadID, event.messageID);
         return;
       }
 
@@ -52,7 +52,7 @@ module.exports = {
       const imageStream = await axios.get(imageUrl, { responseType: 'stream' });
 
       await api.sendMessage({ 
-        body: `Here's your artful image! 🎨`, 
+        body: `ها هي صورتك الفنية! 🎨`, 
         attachment: imageStream.data 
       }, event.threadID, event.messageID);
 
